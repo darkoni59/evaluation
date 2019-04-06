@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <h1>inscription</h1>
+
+    {{ form_start(form) }}
+{{ form_row(form.username,{'label':"nom d'utilisateur" ,'attr':{'placeholder':'votre pseudo'}}) }}
+    {{ form_row(form.email,{'attr':{'placeholder':'votre email'}}) }}
+    {{ form_row(form.password,{'attr':{'placeholder':'votre mot de passe'}})}}
+    {{ form_row(form.confirm_password,{'attr':{'placeholder':'confirmation de mot de passe '}})  }}
+
+
+    <button type="submit" class="btn btn-success">inscription</button>
+    {{ form_end(form) }}
+
+{% endblock %}
