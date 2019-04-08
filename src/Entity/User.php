@@ -91,7 +91,12 @@ class User implements UserInterface
     public function eraseCredentials(){}
     public function getSalt(){}
     public function getRoles(){
-        return['ROLE_USER'];
+        if ($this->role=='ROLE_USER'){
+        return['ROLE_USER'];}
+        elseif ($this->role=='ROLE_ADMIN'){
+            return['ROLE_ADMIN'];
+
+        }
 }
 
     public function getRole(): ?string

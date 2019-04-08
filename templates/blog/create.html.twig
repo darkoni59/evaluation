@@ -3,8 +3,8 @@
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-
-<h1>creation d'un article</h1>
+{% if is_granted('ROLE_ADMIN') %}
+<h1>modification</h1>
     {{ form_start(formArticle) }}
 {{ form_row(formArticle.title,{'attr':{'placeholder':"titre de l'article"}})}}
     {{ form_row(formArticle.content,{'attr':{'placeholder':"contenu de l'article"}}) }}
@@ -18,4 +18,8 @@
     </button>
 
     {{ form_end(formArticle) }}
+{% else %}
+    <h1>page pour l'admin</h1>
+    {% endif %}
+
 {% endblock %}

@@ -4,12 +4,17 @@
 
 
     <article>
+
         <h2>{{ article.title }}</h2>
         <div class="metadata">Ecrit le {{ article.createdAt |date('d/m/Y') }} à {{ article.createdAt|date('H:i') }} dans la category politique</div>
         <div class="content"><img src="{{ article.image }}" alt="">
+
+          {% if is_granted('ROLE_ADMIN')  %}
+            <a href="{{path('blog_delete',{'id':article.id})}}" class="btn btn-primary">supprimer un Article</a>
+             <a href="{{ path('blog_edit',{'id':article.id}) }}" class="btn btn-primary ">editer</a>
             {{ article.content|raw }}
         </div>
-
+        {% endif %}
 
         <section id="commentaires">
             <h1>{{ article.comments| length }}Commentaires: </h1>
@@ -22,6 +27,9 @@
                     <div class="col">
                         {{ comment.content |raw }}
                     </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('blog_comment',{'id':comment.id}) }}"class="btn btn-danger">supprimer</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
@@ -31,6 +39,9 @@
             {{ form_row(commentForm.content,{'attr':{'placeholder':"votre commentaire"}}) }}
             <button class="btn btn-success">Commenter</button>
                 {{ form_end(commentForm) }}
+
+
+
             {% else %}
                 <h2>vous devez vous connecter pour commenter</h2>
                 <a href="{{ path('security_login') }}" class="btn btn-primary">connexion</a>
