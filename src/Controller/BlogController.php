@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
@@ -94,21 +95,20 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/{id}/suppcomment",name="blog_comment")
+     * @Route("/admin/{id}/suppcomment",name="blog_comment",methods={"DELETE"})
      */
-    public function deletecom(Comment $comment=null,Request $request,ObjectManager $manager)
+    public function deletecom(Comment $comment=null,Request $request,ObjectManager $manager): Response
     {
-        $form = $this->createForm(CommentType::class, $comment);
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->remove($comment);
-            $manager->flush();
-            return $this->redirectToRoute('blog_show');
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->remove($comment);
+
+            $entityManager->flush();
 
         }
-        return $this->render('admin/comment.html.twig', [ 'commentForm' => $form->createView()]);
-
+        return $this->redirectToRoute('blog');
     }
 
     /**

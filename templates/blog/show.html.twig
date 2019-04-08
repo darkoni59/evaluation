@@ -28,10 +28,13 @@
                         {{ comment.content |raw }}
                     </div>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('blog_comment',{'id':comment.id}) }}"class="btn btn-danger">supprimer</a>
+                        {{ include('blog/commdelete.html.twig') }}
                     {% endif %}
+
                 </div>
+
             </div>
+
             {% endfor %}
             {% if app.user %}
             {{ form_start(commentForm) }}
