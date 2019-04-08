@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
+    //cette fonction permet d'afficher les differents articles l'un apres l'autres
     /**
      * @Route("/blog", name="blog")
      */
@@ -38,7 +39,7 @@ class BlogController extends AbstractController
         return $this->render('blog/home.html.twig', ['title' => "bienvenue ici les gens"]);
 
     }
-
+//fonction importante pouvant servire à la fois de creation ainsi que d'éditer un article via son ID
     /**
      * @Route("admin/blog/new",name="blog_create")
      * @Route("admin/blog/{id}/edit",name="blog_edit")
@@ -70,7 +71,7 @@ class BlogController extends AbstractController
         return $this->render('blog/create.html.twig', ['formArticle' => $form->createView(), 'editMode' => $article->getId() !== null]);
 
     }
-
+    //fonction permetant de voir les articles sur une page twig grace à route show
     /**
      * @Route("/blog/{id}",name="blog_show")
      */
@@ -93,7 +94,7 @@ class BlogController extends AbstractController
 
 
     }
-
+//fonction de suppression de commentaires
     /**
      * @Route("/admin/{id}/suppcomment",name="blog_comment",methods={"DELETE"})
      */
@@ -114,6 +115,7 @@ class BlogController extends AbstractController
     /**
      * @Route("/admin/{id}/delete",name="blog_delete")
      */
+    //fonction de suppression d'article
     public function delete(Article $article = null, Request $request, ObjectManager $manager)
     {
 
@@ -135,7 +137,7 @@ class BlogController extends AbstractController
 
     }
 
-
+//fonction d'identification de l'admin
     /**
      * @Route("/admin",name="admin")
      */
